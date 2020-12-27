@@ -19,4 +19,7 @@ module.exports = function(app) {
     
     app.route('/ubah')
         .put(jsonku.editDataById);
+
+    app.route('/hapus')
+        .delete(jsonku.deleteById);
 }
