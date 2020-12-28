@@ -29,6 +29,8 @@ exports.oknested = function(values, res) {
             matakuliah[item.nama] = item;
         }
 
+        console.group('matakuliah : ', matakuliah);
+
         return matakuliah;
     }, {});
 

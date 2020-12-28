@@ -11,7 +11,7 @@ exports.index = function(req, res) {
 exports.tampilDataMahasiswa = function(req, res) {
     connection.query('SELECT * FROM mahasiswa', function(error, rows, fields) {
         if(error){
-            connection.log(error);
+            console.log(error);
         } else {
             response.ok(rows, res);
         }
@@ -23,7 +23,7 @@ exports.tampildataBerdasarId = function(req, res) {
     let id = req.params.id;
     connection.query('SELECT * FROM mahasiswa WHERE id_mahasiswa = ?', [id], function(error, rows, fields) {
         if(error){
-            connection.log(error);
+            console.log(error);
         } else {
             response.ok(rows, res);
         }
@@ -84,3 +84,17 @@ exports.tampilGroupMatakuliah = function(req, res) {
         }
     })
 }
+
+
+exports.deleteKsrById = function(req, res) { 
+    const id = req.body.id_ksr;
+    
+    connection.query('DELETE from ksr WHERE id_ksr=?', [id], function(error, rows, fields) {
+        if(error){
+            console.log(error);
+        } else {
+            response.ok("Data berhasil Dihapus", res);
+        }
+    });
+}
+

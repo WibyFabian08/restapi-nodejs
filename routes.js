@@ -25,4 +25,8 @@ module.exports = function(app) {
 
     app.route('/tampilmatakuliah')
         .get(jsonku.tampilGroupMatakuliah);
+
+    app.route('/hapusksr')
+        .delete(jsonku.deleteKsrById);
+
 }
