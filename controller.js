@@ -1,100 +1,107 @@
-'use strict';
+"use strict";
 
-const response = require('./res');
-const connection = require('./koneksi');
+const response = require("./res");
+const connection = require("./koneksi");
 
-exports.index = function(req, res) {
-    response.ok('Aplikasi Rest API Berjalan', res);
-}
+exports.index = function (req, res) {
+  response.ok("Aplikasi Rest API Berjalan", res);
+};
 
-// get data semua mahasiswa
-exports.tampilDataMahasiswa = function(req, res) {
-    connection.query('SELECT * FROM mahasiswa', function(error, rows, fields) {
-        if(error){
-            console.log(error);
-        } else {
-            response.ok(rows, res);
-        }
-    });
-}
+// get data mahasiswa
+exports.tampilsemuadata = function (req, res) {
+  connection.query("SELECT * FROM mahasiswa", function (err, rows, fields) {
+    if (err) {
+      console.log(err);
+    } else {
+      response.ok(rows, res);
 
-// get data berdasar id
-exports.tampildataBerdasarId = function(req, res) {
-    let id = req.params.id;
-    connection.query('SELECT * FROM mahasiswa WHERE id_mahasiswa = ?', [id], function(error, rows, fields) {
-        if(error){
-            console.log(error);
-        } else {
-            response.ok(rows, res);
-        }
-    });
-}
+      // response.ok(fields, res);
+    }
+  });
+};
 
-// post data 
-exports.tambahData = function(req, res) { 
-    const nim = req.body.nim;
-    const nama = req.body.nama;
-    const jurusan = req.body.jurusan;
-    
-    connection.query('INSERT INTO mahasiswa (nim, nama, jurusan) VALUES (?, ?, ?)', [nim, nama, jurusan], function(error, rows, fields) {
-        if(error){
-            console.log(error);
-        } else {
-            response.ok("Data berhasil ditambahkan", res);
-        }
-    });
-}
+// menampilkan semua data berdasar id
+exports.tampilById = function (req, res) {
+  let id = req.params.id;
+  connection.query(
+    "SELECT * FROM mahasiswa WHERE id_mahasiswa = ?",
+    [id],
+    function (err, rows, fields) {
+      if (err) {
+        console.log(err);
+      } else {
+        response.ok(rows, res);
+      }
+    }
+  );
+};
 
-// put data
-exports.editDataById = function(req, res) { 
-    const id = req.body.id_mahasiswa;
-    const nim = req.body.nim;
-    const nama = req.body.nama;
-    const jurusan = req.body.jurusan;
-    
-    connection.query('UPDATE mahasiswa SET nim=?, nama=?, jurusan=? WHERE id_mahasiswa=?', [nim, nama, jurusan, id], function(error, rows, fields) {
-        if(error){
-            console.log(error);
-        } else {
-            response.ok("Data berhasil Diubah", res);
-        }
-    });
-}
+// menambah data
+exports.tambahData = function (req, res) {
+  let nama = req.body.nama;
+  let nim = req.body.nim;
+  let jurusan = req.body.jurusan;
 
-// delete
-exports.deleteById = function(req, res) { 
-    const id = req.body.id_mahasiswa;
-    
-    connection.query('DELETE from mahasiswa WHERE id_mahasiswa=?', [id], function(error, rows, fields) {
-        if(error){
-            console.log(error);
-        } else {
-            response.ok("Data berhasil Dihapus", res);
-        }
-    });
-}
+  connection.query(
+    "INSERT INTO mahasiswa (nim, nama, jurusan) VALUES(?, ?, ?)",
+    [nim, nama, jurusan],
+    function (err, rows, fields) {
+      if (err) {
+        console.log(err);
+      } else {
+        response.ok("Data Berhasil Ditambahkan", res);
+      }
+    }
+  );
+};
 
-// menampilkan matakuliah group
-exports.tampilGroupMatakuliah = function(req, res) {
-    connection.query('SELECT mahasiswa.id_mahasiswa, mahasiswa.nim, mahasiswa.nama, mahasiswa.jurusan, matakuliah.matakuliah, matakuliah.sks FROM ksr JOIN matakuliah JOIN mahasiswa WHERE ksr.id_matakuliah = matakuliah.id_matakuliah AND ksr.id_mahasiswa = mahasiswa.id_mahasiswa', function(err, rows, fields) {
-        if(err) {
-            console.log(err);
-        } else {
-            response.oknested(rows, res);
-        }
-    })
-}
+// edit data
+exports.editData = function (req, res) {
+  let id = req.body.id_mahasiswa;
+  let nama = req.body.nama;
+  let nim = req.body.nim;
+  let jurusan = req.body.jurusan;
 
+  connection.query(
+    "UPDATE mahasiswa SET nim=?, nama=?, jurusan=? WHERE id_mahasiswa=?",
+    [nim, nama, jurusan, id],
+    function (err, rows, fields) {
+      if (err) {
+        console.log(err);
+      } else {
+        response.ok("Data Berhasil Diubah", res);
+      }
+    }
+  );
+};
 
-exports.deleteKsrById = function(req, res) { 
-    const id = req.body.id_ksr;
-    
-    connection.query('DELETE from ksr WHERE id_ksr=?', [id], function(error, rows, fields) {
-        if(error){
-            console.log(error);
-        } else {
-            response.ok("Data berhasil Dihapus", res);
-        }
-    });
-}
+// hapus data
+exports.hapusData = function (req, res) {
+  let id = req.body.id_mahasiswa;
 
+  connection.query(
+    "DELETE FROM mahasiswa WHERE id_mahasiswa = ?",
+    [id],
+    function (err, rows, fields) {
+      if (err) {
+        console.log(err);
+      } else {
+        response.ok("Data Brhasil Dihapus", res);
+      }
+    }
+  );
+};
+
+// menampilkan data kuliah group
+exports.tampilDataMatkul = function (req, res) {
+  connection.query(
+    "SELECT mahasiswa.id_mahasiswa, mahasiswa.nim, mahasiswa.nama, mahasiswa.jurusan, matakuliah.matakuliah, matakuliah.sks from krs JOIN matakuliah JOIN mahasiswa WHERE krs.id_matakuliah = matakuliah.id_matakuliah AND krs.id_mahasiswa = mahasiswa.id_mahasiswa ORDER BY mahasiswa.id_mahasiswa",
+    function (err, rows, fields) {
+      if (err) {
+        console.log(err);
+      } else {
+        response.nested(rows, res);
+      }
+    }
+  );
+};
