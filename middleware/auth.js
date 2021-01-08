@@ -64,7 +64,7 @@ exports.login = function (req, res) {
           expiresIn: 1440,
         });
 
-        id_user = rows[0].id_user;
+        let id_user = rows[0].id_user;
 
         let data = {
           id_user: id_user,
@@ -95,3 +95,8 @@ exports.login = function (req, res) {
     }
   });
 };
+
+// cek verifikasi
+exports.halamanRahasia = function(req, res) {
+  response.ok('Halaman User Role 2', res);
+}
