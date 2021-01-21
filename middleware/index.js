@@ -9,7 +9,12 @@ router.post('/register', auth.registrasi);
 
 router.post('/login', auth.login);
 
+router.get('/verify', auth.verifikasi);
+
 // alamat yang perlu auth
-router.get('/halamanrahasia', verifikasi(2), auth.halamanRahasia);
+// router.get('/halamanrahasia', verifikasi(), auth.halamanRahasia);
+
+// alamat admin tampilkan data mahasiswa
+router.get('/tampilmahasiswa', verifikasi(1), auth.adminMahasiswa);
 
 module.exports = router;
