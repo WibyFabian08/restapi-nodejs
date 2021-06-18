@@ -1,20 +1,18 @@
-const express = require('express');
-const auth = require('./auth');
-const verifikasi = require('./verifikasi');
-const router = express.Router();
+var express = require('express');
+var auth = require('./auth');
+var router = express.Router();
+// var verifikation = require('./verification');
+var verifikasi = require('./verifikasi')
 
+//daftarkan menu registrasi
+router.post('/api/v1/register', auth.registrasi);
+router.post('/api/v1/login', auth.login);
+router.post('/api/v1/ubahpassword', verifikasi(1), auth.ubahPassword);
 
-// daftarkan menu registrasi
-router.post('/register', auth.registrasi);
+router.get('/verify', auth.verifikasi)
 
-router.post('/login', auth.login);
-
-router.get('/verify', auth.verifikasi);
-
-// alamat yang perlu auth
-// router.get('/halamanrahasia', verifikasi(), auth.halamanRahasia);
-
-// alamat admin tampilkan data mahasiswa
-router.get('/tampilmahasiswa', verifikasi(1), auth.adminMahasiswa);
+//alamat yang perlu otorisasi
+//halaman menampilkan data tabel oleh administrator
+router.get('/api/v1/admin/mahasiswa', verifikasi(1), auth.adminmahasiswa);
 
 module.exports = router;

@@ -1,22 +1,25 @@
-"use strict";
+'use strict';
 
 module.exports = function (app) {
-  const jsonku = require("./controller");
+    var jsonku = require('./controller');
 
-  app.route("/").get(jsonku.index);
+    app.route('/')
+        .get(jsonku.index);
 
-  app.route("/tampil").get(jsonku.tampilsemuadata);
+    app.route('/tampil')
+        .get(jsonku.tampilsemuamahasiswa);
 
-  app.route("/tampil/:id").get(jsonku.tampilById);
+    app.route('/tampil/:id')
+        .get(jsonku.tampilberdasarkanid);
+    app.route('/tambah')
+        .post(jsonku.tambahMahasiswa);
 
-  app.route('/tambah').post(jsonku.tambahData);
+    app.route('/ubah')
+        .put(jsonku.ubahMahasiswa);
 
-  app.route('/edit').put(jsonku.editData);
+    app.route('/hapus')
+        .delete(jsonku.hapusMahasiswa);
 
-  app.route('/hapus').delete(jsonku.hapusData);
-
-  app.route('/tampilmatkul').get(jsonku.tampilDataMatkul);
-
-};
-
-
+    app.route('/tampilmatakuliah')
+        .get(jsonku.tampilgroupmatakuliah);
+}
